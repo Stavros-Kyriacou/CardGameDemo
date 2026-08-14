@@ -11,7 +11,7 @@ public class CardViewCreator : Singleton<CardViewCreator>
     {
         CardView cardView = Instantiate(cardViewPrefab, transform.position, transform.rotation);
         cardView.transform.localScale = Vector3.zero;
-        cardView.transform.DOScale(Vector3.one, scaleUpDuration);
+        // cardView.transform.DOScale(Vector3.one, scaleUpDuration);
         return cardView;
     }
 }
