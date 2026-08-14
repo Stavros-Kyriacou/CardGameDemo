@@ -7,14 +7,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        foreach (var card in cards)
-        {
-            Debug.Log("Casting " + card.cardName);
-            foreach (var effect in card.effects)
-            {
+        // foreach (var card in cards)
+        // {
+        //     Debug.Log("Casting " + card.cardName);
+        //     foreach (var effect in card.effects)
+        //     {
 
-                effect.Resolve();
-            }
-        }
+        //         effect.Resolve();
+        //     }
+        // }
     }
 }
