@@ -164,6 +164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardPileSystem
   maxDeckSize: 15
+  maxHandSize: 7
+  handView: {fileID: 1277169223}
 --- !u!1 &32117987
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,7 +1278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 738b3f5527e8afb409d3ebdd3eeb6f53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestSytem
-  handView: {fileID: 1277169223}
 --- !u!1 &833306108
 GameObject:
   m_ObjectHideFlags: 0
