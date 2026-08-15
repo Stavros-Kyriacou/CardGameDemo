@@ -550,6 +550,7 @@ GameObject:
   - component: {fileID: 2681344097577656463}
   - component: {fileID: 1902995701615051757}
   - component: {fileID: 440536763603230990}
+  - component: {fileID: 6811412306315598085}
   m_Layer: 0
   m_Name: CardView
   m_TagString: Untagged
@@ -593,9 +594,6 @@ MonoBehaviour:
   descriptionText: {fileID: 2977887061801202793}
   manaCostText: {fileID: 5749186162456233986}
   imageSpriteRenderer: {fileID: 3127399897732585666}
-  hoverScaleFactor: 1.275
-  hoverScaleTweenDuration: 0.08
-  endDragTweenDuration: 0.08
 --- !u!210 &1902995701615051757
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -629,6 +627,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.7471845, y: 2.3702908, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6811412306315598085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5836140710298298174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b277d2fcce1031f46a5051818c5946dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardMovement
+  hoverScaleFactor: 1.25
+  hoverScaleTweenDuration: 0.08
+  endDragTweenDuration: 0.1
 --- !u!1 &7332694113150566924
 GameObject:
   m_ObjectHideFlags: 0
