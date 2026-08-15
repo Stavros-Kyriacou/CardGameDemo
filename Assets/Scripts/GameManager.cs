@@ -5,6 +5,10 @@ public class GameManager : MonoBehaviour
 {
     public List<CardData> cards = new List<CardData>();
 
+    void Awake()
+    {
+        Application.targetFrameRate = 60;
+    }
     void Start()
     {
         // foreach (var card in cards)
