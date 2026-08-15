@@ -24,10 +24,10 @@ public class HandView : MonoBehaviour
         Spline spline = splineContainer.Spline;
         for (int i = 0; i < cards.Count; i++)
         {
-            float p = firstCardPosition + i * cardSpacing;
-            Vector3 splinePosition = spline.EvaluatePosition(p);
-            Vector3 forward = spline.EvaluateTangent(p);
-            Vector3 up = spline.EvaluateUpVector(p);
+            float currentCardPosition = firstCardPosition + i * cardSpacing;
+            Vector3 splinePosition = spline.EvaluatePosition(currentCardPosition); //Spline position in world space
+            Vector3 forward = spline.EvaluateTangent(currentCardPosition); 
+            Vector3 up = spline.EvaluateUpVector(currentCardPosition);
             Quaternion rotation = Quaternion.LookRotation(-up, Vector3.Cross(-up, forward).normalized);
             cards[i].transform.DOMove(splinePosition + transform.position + 0.01f * i * Vector3.back, duration);
             cards[i].transform.DORotate(rotation.eulerAngles, duration);
