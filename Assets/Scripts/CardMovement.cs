@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class CardMovement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [SerializeField][Range(1.0f, 1.5f)] private float hoverScaleFactor;
-    private readonly float originalScaleFactor = 1f;
-    [SerializeField][Range(0f, 0.5f)] private float hoverScaleTweenDuration;
-
-    //Card Dragging
-    [SerializeField][Range(0f, 0.2f)] private float endDragTweenDuration;
     private Camera mainCamera;
+
+    [Header("Hover Scale Increase")]
+    [SerializeField][Range(1.0f, 1.5f)] private float hoverScaleFactor;
+    [SerializeField][Range(0f, 0.5f)] private float hoverScaleTweenDuration;
+    private readonly float originalScale = 1f;
+
+    [Header("Dragging")]
+    [SerializeField][Range(0f, 0.2f)] private float endDragTweenDuration;
     private readonly float dragCameraDistance = 0;
     private Vector3 dragStartPosition;
+    private Quaternion dragStartRotation;
     private float dragTimeCount = 0.0f;
 
     void Start()
@@ -25,11 +28,12 @@ public class CardMovement : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        ChangeScale(originalScaleFactor);
+        ChangeScale(originalScale);
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
         dragStartPosition = transform.position;
+        dragStartRotation = transform.rotation;
     }
 
     public void OnDrag(PointerEventData data)
@@ -45,12 +49,14 @@ public class CardMovement : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         var screenPoint = mainCamera.ScreenToWorldPoint(data.position);
         screenPoint.z = dragCameraDistance;
         transform.position = screenPoint;
+        transform.rotation = Quaternion.identity;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         transform.DOMove(dragStartPosition, endDragTweenDuration);
-        ChangeScale(originalScaleFactor);
+        transform.DORotate(dragStartRotation.eulerAngles, endDragTweenDuration);
+        ChangeScale(originalScale);
     }
     private void ChangeScale(float scale)
     {
