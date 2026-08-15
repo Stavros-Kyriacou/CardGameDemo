@@ -595,6 +595,7 @@ MonoBehaviour:
   imageSpriteRenderer: {fileID: 3127399897732585666}
   hoverScaleFactor: 1.275
   hoverScaleTweenDuration: 0.08
+  endDragTweenDuration: 0.08
 --- !u!210 &1902995701615051757
 SortingGroup:
   m_ObjectHideFlags: 0
