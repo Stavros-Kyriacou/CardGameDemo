@@ -721,7 +721,6 @@ MonoBehaviour:
   CardInteraction: {fileID: 0}
   CardVisual: {fileID: 0}
   CardPlayController: {fileID: 0}
-  _state: 0
 --- !u!114 &6811412306315598085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -746,13 +745,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 166a495f7c080274fbf6ffefed209f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardVisual
-  nameText: {fileID: 0}
-  descriptionText: {fileID: 0}
-  manaCostText: {fileID: 0}
-  imageSpriteRenderer: {fileID: 0}
+  _nameText: {fileID: 2775141714239729934}
+  _descriptionText: {fileID: 2977887061801202793}
+  _manaCostText: {fileID: 5749186162456233986}
+  _imageSpriteRenderer: {fileID: 3127399897732585666}
   _hoverScaleFactor: 1.25
   _hoverScaleTweenDuration: 0.08
-  cardHighlight: {fileID: 4464033868192551311}
+  _cardHighlight: {fileID: 4464033868192551311}
 --- !u!114 &-5067074306527420451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,7 +764,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8936fe2897548547a42a7cfb3684607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardInteraction
-  endDragMoveDuration: 0
 --- !u!114 &-7232380432345800959
 MonoBehaviour:
   m_ObjectHideFlags: 0
