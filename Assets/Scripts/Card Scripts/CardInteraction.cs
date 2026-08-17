@@ -66,5 +66,6 @@ public class CardInteraction : MonoBehaviour,
         {
             _cardPlayController.ReturnToHand();
         }
+        _cardVisual.SetHighlight(false);
     }
 }
