@@ -1,14 +1,13 @@
 using System;
 using UnityEngine;
 
-//Manage the stae of the card
+//Manage the state of the card
 public class CardView : MonoBehaviour
 {
-    public CardMovement CardMovement;
-    public CardInteraction CardInteraction;
-    public CardVisual CardVisual;
-    public CardPlayController CardPlayController;
-
+    public CardMovement CardMovement { get; private set; }
+    public CardInteraction CardInteraction { get; private set; }
+    public CardVisual CardVisual { get; private set; }
+    public CardPlayController CardPlayController { get; private set; }
     public CardState State { get; private set; }
     public event Action<CardState> StateChanged;
 
@@ -19,12 +18,12 @@ public class CardView : MonoBehaviour
         CardVisual = GetComponent<CardVisual>();
         CardPlayController = GetComponent<CardPlayController>();
     }
+
     public void SetState(CardState newState)
     {
-        if (State == newState) return;
 
+        if (State == newState) return;
         State = newState;
-        Debug.Log(State);
         StateChanged?.Invoke(State);
 
     }
