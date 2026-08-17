@@ -28,6 +28,7 @@ public class CardPileSystem : Singleton<CardPileSystem>
     public void DrawCard()
     {
         if (HandPile.Size() >= _maxHandSize) return;
+        if (CardStagingArea.Instance.IsStaging()) return;
 
         CardView drawnCard = DeckPile.GetFirstCard();
         DeckPile.RemoveCard(drawnCard);
@@ -50,5 +51,13 @@ public class CardPileSystem : Singleton<CardPileSystem>
         {
             StartCoroutine(_handView.UpdateCardPositions());
         }
+    }
+    public bool AddToHand(CardView card)
+    {
+        if (HandPile.Size() >= _maxHandSize)
+            return false;
+
+        HandPile.AddCard(card);
+        return true;
     }
 }

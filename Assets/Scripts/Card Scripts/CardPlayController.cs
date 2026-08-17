@@ -21,7 +21,7 @@ public class CardPlayController : MonoBehaviour
     }
     public void EnterStaging()
     {
-        _stagingArea.StageCard(_cardView);
+        _stagingArea.RequestStaging(_cardView);
     }
 
     public void ReturnToHand()

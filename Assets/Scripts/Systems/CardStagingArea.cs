@@ -3,51 +3,62 @@ using UnityEngine;
 
 public class CardStagingArea : Singleton<CardStagingArea>
 {
-    public event Action CardStaged;
     [SerializeField] private float _handPositionThreshold;
     private CardView _stagedCard;
+    [SerializeField] private HandView _handView;
 
     public bool IsInPlayableArea(Vector3 cardPosition, Vector3 handPosition)
     {
         return cardPosition.y - handPosition.y > _handPositionThreshold;
     }
-    public bool IsOccupied()
+
+    public bool IsStaging()
+    {
+        return _stagedCard != null;
+    }
+    public void RequestStaging(CardView newCard)
     {
         if (_stagedCard == null)
         {
-            return false;
+            StageCard(newCard);
         }
         else
         {
-            return true;
+            ReturnToHand();
+            StageCard(newCard);
         }
     }
-    public void StageCard(CardView newCard)
+
+    private void StageCard(CardView newCard)
     {
-        if (_stagedCard == null)
-        {
-            _stagedCard = newCard;
-            _stagedCard.SetState(CardState.Staging);
-            _stagedCard.CardMovement.MoveTo(transform.position, 0.15f);
-            CardPileSystem.Instance.RemoveCardFromHand(_stagedCard);
-        }
-        else
-        {
-            Debug.Log("go back home you piggy");
-            newCard.CardPlayController.ReturnToHand();
-        }
+        _stagedCard = newCard;
+        _stagedCard.SetState(CardState.Staging);
+        _stagedCard.CardMovement.MoveTo(transform.position, 0.15f);
+        _stagedCard.CardMovement.RotateTo(Quaternion.identity, 0.15f);
+        CardPileSystem.Instance.RemoveCardFromHand(_stagedCard);
     }
-    public void RemoveCard()
+    /// <summary>
+    /// Return the current staged card back to the hand
+    /// </summary>
+    public void ReturnToHand()
     {
-        
+        if (!CardPileSystem.Instance.AddToHand(_stagedCard))
+            return;
+
+        _stagedCard.SetState(CardState.InHand);
+        StartCoroutine(_handView.UpdateCardPositions());
+    }
+    public void CancelStaging()
+    {
+
     }
     public void PlayCard()
     {
         //requires targets?
-                //being targeting system
-                //return targets
-                //play card
+        //being targeting system
+        //return targets
         //play card
-            //send to discard pile
+        //play card
+        //send to discard pile
     }
 }
