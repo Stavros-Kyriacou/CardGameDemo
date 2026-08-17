@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class CardStagingArea : Singleton<CardStagingArea>
 {
+    public event Action CardStaged;
     [SerializeField] private float _handPositionThreshold;
     private CardView _stagedCard;
 
@@ -20,19 +22,24 @@ public class CardStagingArea : Singleton<CardStagingArea>
             return true;
         }
     }
-    public void StageCard(CardView card)
+    public void StageCard(CardView newCard)
     {
         if (_stagedCard == null)
         {
-            _stagedCard = card;
+            _stagedCard = newCard;
+            _stagedCard.SetState(CardState.Staging);
+            _stagedCard.CardMovement.MoveTo(transform.position, 0.15f);
+            CardPileSystem.Instance.RemoveCardFromHand(_stagedCard);
         }
         else
         {
-            //return _stagedCard to hand
-            _stagedCard.CardPlayController.ReturnToHand();
-            //stage new card
-            _stagedCard = card;
+            Debug.Log("go back home you piggy");
+            newCard.CardPlayController.ReturnToHand();
         }
+    }
+    public void RemoveCard()
+    {
+        
     }
     public void PlayCard()
     {

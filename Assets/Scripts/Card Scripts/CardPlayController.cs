@@ -6,26 +6,22 @@ public class CardPlayController : MonoBehaviour
     private CardView _cardView;
     private CardInteraction _cardInteraction;
     private CardMovement _cardMovement;
+    private CardStagingArea _stagingArea;
     private void Awake()
     {
         _cardView = GetComponent<CardView>();
         _cardInteraction = GetComponent<CardInteraction>();
         _cardMovement = GetComponent<CardMovement>();
+        _stagingArea = CardStagingArea.Instance;
     }
     public bool ShouldEnterStaging()
     {
-        //check mana
-        //check if card is past staging threshold
-
-        return CardStagingArea.Instance.IsInPlayableArea(transform.position, _cardInteraction.HandPosition);
+        //TODO check mana
+        return _stagingArea.IsInPlayableArea(transform.position, _cardInteraction.HandPosition);
     }
     public void EnterStaging()
     {
-        //remove from hand pile
-        //move card to staging area
-        _cardMovement.MoveTo(CardStagingArea.Instance.transform.position, 0.15f);
-        //redraw hand
-        _cardView.SetState(CardState.Staging);
+        _stagingArea.StageCard(_cardView);
     }
 
     public void ReturnToHand()
