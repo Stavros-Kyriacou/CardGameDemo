@@ -20,7 +20,6 @@ public class CardPileSystem : Singleton<CardPileSystem>
         for (int i = 0; i < _maxDeckSize; i++)
         {
             CardView cardView = CardViewCreator.Instance.CreateCardView(transform.position, Quaternion.identity);
-            cardView.gameObject.name += ": " + i.ToString();
             DeckPile.AddCard(cardView);
         }
         ShuffleDeck();

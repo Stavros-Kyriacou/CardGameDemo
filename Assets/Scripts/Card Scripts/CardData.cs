@@ -4,7 +4,9 @@ using UnityEngine;
 [CreateAssetMenu]
 public class CardData : ScriptableObject
 {
-    public string cardName;
+    public string CardName;
+    public string CardDescription;
+    public int ManaCost;
 
     [SerializeReference]
     [SubclassSelector]

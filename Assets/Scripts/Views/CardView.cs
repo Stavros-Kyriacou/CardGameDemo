@@ -9,6 +9,7 @@ public class CardView : MonoBehaviour
     public CardVisual CardVisual { get; private set; }
     public CardPlayController CardPlayController { get; private set; }
     public CardState State { get; private set; }
+    public CardData Data { get; private set; }
     public event Action<CardState> StateChanged;
 
     void Awake()
@@ -18,13 +19,15 @@ public class CardView : MonoBehaviour
         CardVisual = GetComponent<CardVisual>();
         CardPlayController = GetComponent<CardPlayController>();
     }
-
+    public void Initialise(CardData data)
+    {
+        Data = data;
+        SetState(CardState.InDeck);
+    }
     public void SetState(CardState newState)
     {
-
         if (State == newState) return;
         State = newState;
         StateChanged?.Invoke(State);
-
     }
 }
