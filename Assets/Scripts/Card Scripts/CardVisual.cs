@@ -31,6 +31,7 @@ public class CardVisual : MonoBehaviour
     private void OnEnable()
     {
         _cardView.StateChanged += UpdateVisuals;
+        UpdateVisuals(CardState.InDeck);
     }
     private void OnDisable()
     {
@@ -39,10 +40,13 @@ public class CardVisual : MonoBehaviour
 
     private void UpdateVisuals(CardState newState)
     {
+        _nameText.text = newState.ToString();
+        _descriptionText.text = gameObject.name;
         switch (newState)
         {
-            case CardState.Hovering:
-                transform.DOScale(_hoverScaleFactor, _hoverScaleTweenDuration);
+
+            case CardState.InDeck:
+                _cardView.transform.localScale = Vector3.zero;
                 break;
             case CardState.InHand:
                 transform.DOScale(OriginalScale, _hoverScaleTweenDuration);
@@ -51,7 +55,6 @@ public class CardVisual : MonoBehaviour
             case CardState.Staging:
                 SetHighlight(true);
                 break;
-
         }
     }
 
