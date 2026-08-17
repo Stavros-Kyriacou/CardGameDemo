@@ -20,6 +20,7 @@ public class CardPileSystem : Singleton<CardPileSystem>
         for (int i = 0; i < _maxDeckSize; i++)
         {
             CardView cardView = CardViewCreator.Instance.CreateCardView(transform.position, Quaternion.identity);
+            cardView.gameObject.name += ": " + i.ToString();
             DeckPile.AddCard(cardView);
         }
         ShuffleDeck();
@@ -35,7 +36,7 @@ public class CardPileSystem : Singleton<CardPileSystem>
         drawnCard.transform.DOScale(Vector3.one, 0.15f);
         drawnCard.SetState(CardState.InHand);
 
-        StartCoroutine(_handView.AddCard(drawnCard));
+        StartCoroutine(_handView.UpdateCardPositions());
     }
     public void ShuffleDeck()
     {
@@ -44,17 +45,5 @@ public class CardPileSystem : Singleton<CardPileSystem>
     public void DiscardCard()
     {
 
-    }
-    public void DebugPiles()
-    {
-        Debug.Log("Deck Cards");
-        Debug.Log(DeckPile.LogCardsInPile());
-        Debug.Log("--------------------------");
-        Debug.Log("Hand Cards");
-        Debug.Log(HandPile.LogCardsInPile());
-        Debug.Log("--------------------------");
-        Debug.Log("Discard Cards");
-        Debug.Log(DiscardPile.LogCardsInPile());
-        Debug.Log("--------------------------");
     }
 }
