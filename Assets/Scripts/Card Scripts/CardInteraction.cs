@@ -17,7 +17,7 @@ public class CardInteraction : MonoBehaviour,
     private Quaternion _dragStartRotation;
     public Vector3 HandPosition => _dragStartPosition;
     public Quaternion HandRotation => _dragStartRotation;
-    
+
     private void Awake()
     {
         _cardView = GetComponent<CardView>();
@@ -28,28 +28,26 @@ public class CardInteraction : MonoBehaviour,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // _cardVisual.SetHovered(true);
 
-        if (_cardView.State == CardState.Staging) return;
-        _cardView.SetState(CardState.Hovering);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // _cardVisual.SetHovered(false);
 
-        if (_cardView.State == CardState.Staging) return;
-        _cardView.SetState(CardState.InHand);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (_cardView.State != CardState.InHand) return;
+
         _dragStartPosition = transform.position;
         _dragStartRotation = transform.rotation;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (_cardView.State != CardState.InHand) return;
+
         _cardMovement.MoveToMouse(eventData.position);
 
         bool inPlayableArea = CardStagingArea.Instance.IsInPlayableArea(transform.position, _dragStartPosition);
@@ -58,6 +56,8 @@ public class CardInteraction : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (_cardView.State != CardState.InHand) return;
+
         if (_cardPlayController.ShouldEnterStaging())
         {
             _cardPlayController.EnterStaging();
