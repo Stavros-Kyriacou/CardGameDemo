@@ -2,8 +2,7 @@ public enum TargetingType
 {
    None,
    Self,
-   SingleEnemy,
-   MultipleEnemies,
+   Enemy,
    AllEnemies,
    RandomEnemy
 }
