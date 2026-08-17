@@ -1,12 +1,17 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardStagingArea : Singleton<CardStagingArea>
 {
     [SerializeField] private float _handPositionThreshold;
     private CardView _stagedCard;
     [SerializeField] private HandView _handView;
-
+    [SerializeField] private Button _cancelStagingButton;
+    private void Start()
+    {
+        _cancelStagingButton.gameObject.SetActive(false);
+    }
     public bool IsInPlayableArea(Vector3 cardPosition, Vector3 handPosition)
     {
         return cardPosition.y - handPosition.y > _handPositionThreshold;
@@ -36,6 +41,7 @@ public class CardStagingArea : Singleton<CardStagingArea>
         _stagedCard.CardMovement.MoveTo(transform.position, 0.15f);
         _stagedCard.CardMovement.RotateTo(Quaternion.identity, 0.15f);
         CardPileSystem.Instance.RemoveCardFromHand(_stagedCard);
+        _cancelStagingButton.gameObject.SetActive(true);
     }
     /// <summary>
     /// Return the current staged card back to the hand
@@ -50,7 +56,10 @@ public class CardStagingArea : Singleton<CardStagingArea>
     }
     public void CancelStaging()
     {
+        if (!IsStaging()) return;
 
+        ReturnToHand();
+        _cancelStagingButton.gameObject.SetActive(false);
     }
     public void PlayCard()
     {
