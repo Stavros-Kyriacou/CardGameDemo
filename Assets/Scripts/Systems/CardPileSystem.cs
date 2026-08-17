@@ -42,8 +42,13 @@ public class CardPileSystem : Singleton<CardPileSystem>
     {
         DeckPile.ShufflePile();
     }
-    public void DiscardCard()
+    public void RemoveCardFromHand(CardView card)
     {
+        HandPile.RemoveCard(card);
 
+        if (HandPile.Pile.Count > 0)
+        {
+            StartCoroutine(_handView.UpdateCardPositions());
+        }
     }
 }
