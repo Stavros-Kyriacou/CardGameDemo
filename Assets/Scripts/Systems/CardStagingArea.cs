@@ -52,6 +52,7 @@ public class CardStagingArea : Singleton<CardStagingArea>
             return;
 
         _stagedCard.SetState(CardState.InHand);
+        _stagedCard = null;
         StartCoroutine(_handView.UpdateCardPositions());
     }
     public void CancelStaging()
