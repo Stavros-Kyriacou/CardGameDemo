@@ -1,9 +1,9 @@
 public enum CardState
 {
+    Unknown,
     InDeck,
-    InDiscard,
     InHand,
-    Hovering,
+    InDiscard,
     Dragging,
     Staging
 }
