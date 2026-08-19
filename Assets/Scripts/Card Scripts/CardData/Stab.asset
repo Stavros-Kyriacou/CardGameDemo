@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be246fa458af77f4c9942fe71b3fe5b7, type: 3}
   m_Name: Stab
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: stab
+  CardName: Stab
+  CardDescription: Deal 2 damage to an enemy
+  ManaCost: 1
+  TargetingType: 3
+  MaxTargets: 1
   effects:
   - rid: 7408834920421785791
   references:
@@ -21,4 +25,4 @@ MonoBehaviour:
     - rid: 7408834920421785791
       type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
       data:
-        damage: 15
+        damage: 2

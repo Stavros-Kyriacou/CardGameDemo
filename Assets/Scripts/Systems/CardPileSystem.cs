@@ -7,9 +7,9 @@ public class CardPileSystem : Singleton<CardPileSystem>
     public CardPile HandPile = new CardPile();
     public CardPile DiscardPile = new CardPile();
 
-    [SerializeField] private int maxDeckSize = 15;
-    [SerializeField] private int maxHandSize = 7;
-    [SerializeField] private HandView handView;
+    [SerializeField] private int _maxDeckSize = 15;
+    [SerializeField] private int _maxHandSize = 7;
+    [SerializeField] private HandView _handView;
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class CardPileSystem : Singleton<CardPileSystem>
     }
     public void GenerateDeck()
     {
-        for (int i = 0; i < maxDeckSize; i++)
+        for (int i = 0; i < _maxDeckSize; i++)
         {
             CardView cardView = CardViewCreator.Instance.CreateCardView(transform.position, Quaternion.identity);
             DeckPile.AddCard(cardView);
@@ -26,34 +26,38 @@ public class CardPileSystem : Singleton<CardPileSystem>
     }
     public void DrawCard()
     {
-        if (HandPile.Size() >= maxHandSize) return;
+        if (HandPile.Size() >= _maxHandSize) return;
+        if (DeckPile.Size() == 0) return;
+        if (CardStagingArea.Instance.IsStaging()) return;
 
-        var drawnCard = DeckPile.GetFirstCard();
+        CardView drawnCard = DeckPile.GetFirstCard();
         DeckPile.RemoveCard(drawnCard);
 
         HandPile.AddCard(drawnCard);
         drawnCard.transform.DOScale(Vector3.one, 0.15f);
+        drawnCard.SetState(CardState.InHand);
 
-        StartCoroutine(handView.AddCard(drawnCard));
+        StartCoroutine(_handView.UpdateCardPositions());
     }
     public void ShuffleDeck()
     {
         DeckPile.ShufflePile();
     }
-    public void DiscardCard()
+    public void RemoveCardFromHand(CardView card)
     {
+        HandPile.RemoveCard(card);
 
+        if (HandPile.Pile.Count > 0)
+        {
+            StartCoroutine(_handView.UpdateCardPositions());
+        }
     }
-    public void DebugPiles()
+    public bool AddToHand(CardView card)
     {
-        Debug.Log("Deck Cards");
-        Debug.Log(DeckPile.LogCardsInPile());
-        Debug.Log("--------------------------");
-        Debug.Log("Hand Cards");
-        Debug.Log(HandPile.LogCardsInPile());
-        Debug.Log("--------------------------");
-        Debug.Log("Discard Cards");
-        Debug.Log(DiscardPile.LogCardsInPile());
-        Debug.Log("--------------------------");
+        if (HandPile.Size() >= _maxHandSize)
+            return false;
+
+        HandPile.AddCard(card);
+        return true;
     }
 }

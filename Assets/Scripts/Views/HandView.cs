@@ -6,36 +6,46 @@ using UnityEngine.Splines;
 
 public class HandView : MonoBehaviour
 {
-    [SerializeField] private SplineContainer splineContainer;
+    [SerializeField] private SplineContainer _splineContainer;
+    [SerializeField] private float _cardMovementDuration = 0.15f;
 
-    private readonly List<CardView> cards = new List<CardView>();
-
-    public IEnumerator AddCard(CardView cardView)
+   
+    private void OnEnable()
     {
-        cards.Add(cardView);
-        yield return UpdateCardPositions(0.15f);
+        // CardStagingArea.Instance.CardStaged += HandleCardStaged;
+    }
+    private void OnDisable()
+    {
+        // if (CardStagingArea.Instance == null) return;
+        // CardStagingArea.Instance.CardStaged -= HandleCardStaged;
+
+    }
+    public void HandleCardStaged()
+    {
+        // StartCoroutine(UpdateCardPositions());
     }
 
-    private IEnumerator UpdateCardPositions(float duration)
+
+    public IEnumerator UpdateCardPositions()
     {
-        if (cards.Count == 0) yield break;
+        var cardsInHand = CardPileSystem.Instance.HandPile.Pile;
+
+        if (cardsInHand.Count == 0) yield break;
         float cardSpacing = 1f / 10;
-        float firstCardPosition = 0.5f - (cards.Count - 1) * cardSpacing / 2;
-        Spline spline = splineContainer.Spline;
-        for (int i = 0; i < cards.Count; i++)
+        float firstCardPosition = 0.5f - (cardsInHand.Count - 1) * cardSpacing / 2;
+        Spline spline = _splineContainer.Spline;
+        for (int i = 0; i < cardsInHand.Count; i++)
         {
-            float p = firstCardPosition + i * cardSpacing;
-            Vector3 splinePosition = spline.EvaluatePosition(p);
-            Vector3 forward = spline.EvaluateTangent(p);
-            Vector3 up = spline.EvaluateUpVector(p);
+            float currentCardPosition = firstCardPosition + i * cardSpacing;
+            Vector3 splinePosition = spline.EvaluatePosition(currentCardPosition); //Spline position in world space
+            Vector3 forward = spline.EvaluateTangent(currentCardPosition);
+            Vector3 up = spline.EvaluateUpVector(currentCardPosition);
             Quaternion rotation = Quaternion.LookRotation(-up, Vector3.Cross(-up, forward).normalized);
-            cards[i].transform.DOMove(splinePosition + transform.position + 0.01f * i * Vector3.back, duration);
-            cards[i].transform.DORotate(rotation.eulerAngles, duration);
+
+            //offset height of each card by small amount in hand so that colliders dont overlap
+            cardsInHand[i].transform.DOMove(splinePosition + transform.position + 0.01f * i * Vector3.back, _cardMovementDuration);
+            cardsInHand[i].transform.DORotate(rotation.eulerAngles, _cardMovementDuration);
         }
-        yield return new WaitForSeconds(duration);
-    }
-    public int CardsInHand()
-    {
-        return cards.Count;
+        yield return new WaitForSeconds(_cardMovementDuration);
     }
 }

@@ -1,12 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-public class BattleManager : MonoBehaviour
+public class BattleManager : Singleton<BattleManager>
 {
-    public List<GameObject> enemies;
-    void Start()
-    {
-        Debug.Log(enemies.Count);
-    }
-
+    public List<Enemy> Enemies;
 }

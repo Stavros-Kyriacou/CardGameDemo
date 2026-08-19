@@ -5,7 +5,7 @@ using UnityEngine;
 public class DrawEffect : CardEffect
 {
     public int cardsToDraw;
-    public override void Resolve()
+    public override void Resolve(CardContext context)
     {
         Debug.Log("Drew " + cardsToDraw + " card(s)");
     }

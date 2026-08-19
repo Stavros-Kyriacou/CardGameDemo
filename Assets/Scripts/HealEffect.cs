@@ -5,7 +5,7 @@ using UnityEngine;
 public class HealEffect : CardEffect
 {
     public int healAmount;
-    public override void Resolve()
+    public override void Resolve(CardContext context)
     {
         Debug.Log("Recovered " + healAmount + " health");
     }

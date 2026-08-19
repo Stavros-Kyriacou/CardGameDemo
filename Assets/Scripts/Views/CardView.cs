@@ -1,24 +1,33 @@
-using DG.Tweening;
-using TMPro;
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class CardView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+//Manage the state of the card
+public class CardView : MonoBehaviour
 {
-    [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text descriptionText;
-    [SerializeField] private TMP_Text manaCostText;
-    [SerializeField] private SpriteRenderer imageSpriteRenderer;
-    [SerializeField][Range(1.0f, 1.5f)] private float hoverScaleFactor;
-    [SerializeField][Range(0f, 0.5f)] private float hoverScaleTweenDuration;
+    public CardMovement CardMovement { get; private set; }
+    public CardInteraction CardInteraction { get; private set; }
+    public CardVisual CardVisual { get; private set; }
+    public CardPlayController CardPlayController { get; private set; }
+    public CardState State { get; private set; }
+    public CardData Data { get; private set; }
+    public event Action<CardState> StateChanged;
 
-    public void OnPointerEnter(PointerEventData eventData)
+    void Awake()
     {
-        transform.DOScale(hoverScaleFactor, hoverScaleTweenDuration);
+        CardMovement = GetComponent<CardMovement>();
+        CardInteraction = GetComponent<CardInteraction>();
+        CardVisual = GetComponent<CardVisual>();
+        CardPlayController = GetComponent<CardPlayController>();
     }
-
-    public void OnPointerExit(PointerEventData eventData)
+    public void Initialise(CardData data)
     {
-        transform.DOScale(1f, hoverScaleTweenDuration);
+        Data = data;
+        SetState(CardState.InDeck);
+    }
+    public void SetState(CardState newState)
+    {
+        if (State == newState) return;
+        State = newState;
+        StateChanged?.Invoke(State);
     }
 }
