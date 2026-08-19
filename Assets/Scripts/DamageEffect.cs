@@ -6,8 +6,11 @@ public class DamageEffect : CardEffect
 {
     public int damage;
 
-    public override void Resolve()
+    public override void Resolve(CardContext context)
     {
-        Debug.Log("Dealt " + damage + " damage");
+        foreach (var target in context.Targets)
+        {
+            target.TakeDamage(damage);
+        }
     }
 }

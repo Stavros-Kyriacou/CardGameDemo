@@ -3,5 +3,5 @@ using System;
 [Serializable]
 public abstract class CardEffect
 {
-    public abstract void Resolve();
+    public abstract void Resolve(CardContext context);
 }
