@@ -9,6 +9,7 @@ public class CardInteraction : MonoBehaviour,
     IDragHandler,
     IEndDragHandler
 {
+    private CardStagingArea _stagingArea;
     private CardView _cardView;
     private CardVisual _cardVisual;
     private CardMovement _cardMovement;
@@ -24,6 +25,10 @@ public class CardInteraction : MonoBehaviour,
         _cardVisual = GetComponent<CardVisual>();
         _cardMovement = GetComponent<CardMovement>();
         _cardPlayController = GetComponent<CardPlayController>();
+    }
+    private void Start()
+    {
+        _stagingArea = CardStagingArea.Instance;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -50,7 +55,7 @@ public class CardInteraction : MonoBehaviour,
 
         _cardMovement.MoveToMouse(eventData.position);
 
-        bool inPlayableArea = CardStagingArea.Instance.IsInPlayableArea(transform.position, _dragStartPosition);
+        bool inPlayableArea = _stagingArea.IsInPlayableArea(transform.position, _dragStartPosition);
         _cardVisual.SetHighlight(inPlayableArea);
     }
 
