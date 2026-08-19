@@ -65,6 +65,11 @@ public class CardVisual : MonoBehaviour
     {
         _cardHighlight.enabled = enabled;
     }
+    public void ChangeScale(float endValue, float duration)
+    {
+        Vector3 endScale = Vector3.one * endValue;
+        transform.DOScale(endScale, duration);
+    }
     public void ResetScale()
     {
         transform.DOScale(OriginalScale, _hoverScaleTweenDuration);
