@@ -27,6 +27,7 @@ public class CardPileSystem : Singleton<CardPileSystem>
     public void DrawCard()
     {
         if (HandPile.Size() >= _maxHandSize) return;
+        if (DeckPile.Size() == 0) return;
         if (CardStagingArea.Instance.IsStaging()) return;
 
         CardView drawnCard = DeckPile.GetFirstCard();
