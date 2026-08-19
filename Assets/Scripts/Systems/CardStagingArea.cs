@@ -4,12 +4,16 @@ using UnityEngine.UI;
 
 public class CardStagingArea : Singleton<CardStagingArea>
 {
-    [SerializeField] private float _handPositionThreshold;
-    private CardView _stagedCard;
+    public event Action<CardView> CardStaged;
     [SerializeField] private HandView _handView;
     [SerializeField] private Button _cancelStagingButton;
+    [SerializeField] private float _handPositionThreshold;
+    [SerializeField] private Transform _discardPileLocation;
+    private CardView _stagedCard;
+
     private void Start()
     {
+        CardResolver.Instance.CardResolved += HandleCardResolved;
         _cancelStagingButton.gameObject.SetActive(false);
     }
     public bool IsInPlayableArea(Vector3 cardPosition, Vector3 handPosition)
@@ -37,11 +41,12 @@ public class CardStagingArea : Singleton<CardStagingArea>
     private void StageCard(CardView newCard)
     {
         _stagedCard = newCard;
-        _stagedCard.SetState(CardState.Staging);
-        _stagedCard.CardMovement.MoveTo(transform.position, 0.15f);
-        _stagedCard.CardMovement.RotateTo(Quaternion.identity, 0.15f);
-        CardPileSystem.Instance.RemoveCardFromHand(_stagedCard);
         _cancelStagingButton.gameObject.SetActive(true);
+
+        MoveCardToStaging(newCard);
+
+        CardPileSystem.Instance.RemoveCardFromHand(_stagedCard);
+        CardStaged?.Invoke(newCard);
     }
     /// <summary>
     /// Return the current staged card back to the hand
@@ -62,13 +67,30 @@ public class CardStagingArea : Singleton<CardStagingArea>
         ReturnToHand();
         _cancelStagingButton.gameObject.SetActive(false);
     }
-    public void PlayCard()
+    private void HandleCardResolved(CardView card)
     {
-        //requires targets?
-        //being targeting system
-        //return targets
-        //play card
-        //play card
-        //send to discard pile
+        _stagedCard = null;
+        _cancelStagingButton.gameObject.SetActive(false);
+
+        MoveCardToDiscard(card);
+
+        CardPileSystem.Instance.DiscardPile.AddCard(card);
+    }
+    private void MoveCardToStaging(CardView Card)
+    {
+        _stagedCard.SetState(CardState.Staging);
+        _stagedCard.CardMovement.MoveTo(transform.position, 0.15f);
+        _stagedCard.CardMovement.RotateTo(Quaternion.identity, 0.15f);
+    }
+    private void MoveCardToDiscard(CardView card)
+    {
+        card.SetState(CardState.InDiscard);
+        card.CardMovement.MoveTo(_discardPileLocation.position, 0.15f);
+        card.CardVisual.ChangeScale(0, 0.15f);
+    }
+    private void OnDisable()
+    {
+        if (CardResolver.Instance != null)
+            CardResolver.Instance.CardResolved -= HandleCardResolved;
     }
 }
