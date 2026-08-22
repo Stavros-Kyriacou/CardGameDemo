@@ -1,20 +1,25 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class TargetingSystem : Singleton<TargetingSystem>
 {
     private BattleManager _battleManager;
+    public event Action<List<Enemy>> TargetsSelected;
+    private CardView _currentCard;
+    private List<Enemy> _targetableEnemies = new List<Enemy>();
+    private List<Enemy> _selectedEnemies = new List<Enemy>();
+
     void Start()
     {
         _battleManager = BattleManager.Instance;
     }
-    public event Action<List<Enemy>> TargetsSelected;
+
     public void BeginTargeting(CardView card)
     {
-        var targets = new List<Enemy>();
+        _currentCard = card;
+        _targetableEnemies = _battleManager.Enemies;
 
-        switch (card.Data.TargetingType)
+        switch (card.Data.TargetingRules.TargetingType)
         {
             case TargetingType.None:
 
@@ -22,15 +27,15 @@ public class TargetingSystem : Singleton<TargetingSystem>
             case TargetingType.Self:
 
                 break;
-            case TargetingType.Enemy:
-
+            case TargetingType.Manual:
+                BeginManualTargeting();
                 break;
             case TargetingType.AllEnemies:
-                TargetsSelected?.Invoke(_battleManager.Enemies);
+                TargetsSelected?.Invoke(_targetableEnemies);
                 break;
             case TargetingType.RandomEnemy:
-                targets = GetRandomEnemy();
-                TargetsSelected?.Invoke(targets);
+                _targetableEnemies = GetRandomEnemy();
+                TargetsSelected?.Invoke(_targetableEnemies);
                 break;
 
             default:
@@ -38,11 +43,85 @@ public class TargetingSystem : Singleton<TargetingSystem>
         }
 
     }
+    private void BeginManualTargeting()
+    {
+        //subscribe to current enemies clicked event
+        foreach (var enemy in _targetableEnemies)
+        {
+            enemy.Clicked += HandleEnemyClicked;
+        }
+
+        //TODO: check if enemies are a valid target
+        SetEnemiesTargetable(true);
+    }
+
+    private void HandleEnemyClicked(Enemy enemy)
+    {
+        var targetingRules = _currentCard.Data.TargetingRules;
+
+        if (targetingRules.AllowDuplicates)
+        {
+            _selectedEnemies.Add(enemy);
+        }
+        else
+        {
+            //check for duplicates then add
+            //or break
+        }
+
+        if (_selectedEnemies.Count >= targetingRules.MinTargets)
+        {
+            //show a button to confirm the selection
+        }
+
+        if (_selectedEnemies.Count == targetingRules.MaxTargets)
+        {
+            FinishManualTargeting();
+        }
+
+        //TODO: handle deselecting an enemy and removing from list. make rightclick deselect?
+                //avoids issues with cards with multiple targets and allows duplicates
+                //player can click the same target multiple times with left click, 
+                //or click confirm button if mintargets is met
+    }
+
+    private void FinishManualTargeting()
+    {
+        if (_selectedEnemies == null || _selectedEnemies.Count == 0) return;
+
+        TargetsSelected?.Invoke(_selectedEnemies);
+
+        foreach (var enemy in _targetableEnemies)
+        {
+            enemy.Clicked -= HandleEnemyClicked;
+        }
+
+        SetEnemiesTargetable(false);
+        _selectedEnemies = new List<Enemy>();
+        _currentCard = null;
+    }
+    public void SetEnemiesTargetable(bool targetable)
+    {
+        foreach (var enemy in _targetableEnemies)
+        {
+            enemy.IsTargetable = targetable;
+        }
+        HiglightTargetableEnemies(targetable);
+
+    }
+    private void HiglightTargetableEnemies(bool highlighted)
+    {
+        foreach (var enemy in _targetableEnemies)
+        {
+            enemy.SetHighlight(highlighted);
+        }
+    }
+
     private List<Enemy> GetRandomEnemy()
     {
         var targets = new List<Enemy>();
-        var randomIndex = UnityEngine.Random.Range(0, _battleManager.Enemies.Count);
-        targets.Add(_battleManager.Enemies[randomIndex]);
+        var randomIndex = UnityEngine.Random.Range(0, _targetableEnemies.Count);
+        targets.Add(_targetableEnemies[randomIndex]);
         return targets;
     }
 }
