@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class TargetingSystem : Singleton<TargetingSystem>
 {
@@ -59,7 +60,7 @@ public class TargetingSystem : Singleton<TargetingSystem>
     {
         var targetingRules = _currentCard.Data.TargetingRules;
 
-        if (targetingRules.AllowDuplicates)
+        if (targetingRules.AllowDuplicates || targetingRules.MaxTargets == 1)
         {
             _selectedEnemies.Add(enemy);
         }
@@ -97,7 +98,7 @@ public class TargetingSystem : Singleton<TargetingSystem>
         }
 
         SetEnemiesTargetable(false);
-        _selectedEnemies = new List<Enemy>();
+        _selectedEnemies.Clear();
         _currentCard = null;
     }
     public void SetEnemiesTargetable(bool targetable)
