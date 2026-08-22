@@ -15,8 +15,11 @@ MonoBehaviour:
   CardName: Stab
   CardDescription: Deal 2 damage to an enemy
   ManaCost: 1
-  TargetingType: 4
-  MaxTargets: 1
+  TargetingRules:
+    TargetingType: 2
+    MinTargets: 1
+    MaxTargets: 2
+    AllowDuplicates: 0
   effects:
   - rid: 7408834920421785791
   references:
