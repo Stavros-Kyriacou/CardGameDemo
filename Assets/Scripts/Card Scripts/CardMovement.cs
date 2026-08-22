@@ -28,6 +28,5 @@ public class CardMovement : MonoBehaviour
         position.z = 0;
 
         transform.position = position;
-        transform.rotation = Quaternion.identity;
     }
 }
