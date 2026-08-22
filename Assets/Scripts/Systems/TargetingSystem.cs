@@ -106,10 +106,10 @@ public class TargetingSystem : Singleton<TargetingSystem>
         {
             enemy.IsTargetable = targetable;
         }
-        HiglightTargetableEnemies(targetable);
+        HighlightTargetableEnemies(targetable);
 
     }
-    private void HiglightTargetableEnemies(bool highlighted)
+    private void HighlightTargetableEnemies(bool highlighted)
     {
         foreach (var enemy in _targetableEnemies)
         {
