@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TargetingSystem : Singleton<TargetingSystem>
 {
@@ -55,18 +57,31 @@ public class TargetingSystem : Singleton<TargetingSystem>
         SetEnemiesTargetable(true);
     }
 
-    private void HandleEnemyClicked(Enemy enemy)
+    private void HandleEnemyClicked(Enemy enemy, PointerEventData.InputButton button)
     {
-        var targetingRules = _currentCard.Data.TargetingRules;
-
-        if (!CanSelectEnemy(enemy))
-            return;
-
-        SelectEnemy(enemy);
-
-        if (FinishedTargeting())
+        if (button == PointerEventData.InputButton.Left)
         {
-            CompleteManualTargeting();
+            if (!CanSelectEnemy(enemy))
+                return;
+
+            SelectEnemy(enemy);
+
+            if (FinishedTargeting())
+            {
+                CompleteManualTargeting();
+            }
+        }
+
+        if (button == PointerEventData.InputButton.Right)
+        {
+            if (!enemy.IsSelected)
+                return;
+
+            if (!_selectedEnemies.Contains(enemy))
+                return;
+
+            _selectedEnemies.Remove(enemy);
+            enemy.SetSelected(false);
         }
     }
 
@@ -74,15 +89,13 @@ public class TargetingSystem : Singleton<TargetingSystem>
     {
         var rules = _currentCard.Data.TargetingRules;
 
-        //max targets reached
-        if (_selectedEnemies.Count == rules.MaxTargets)
-            return true;
+        bool reachedMaxTargets = _selectedEnemies.Count >= rules.MaxTargets;
 
-        //cast when less enemies than maximum but all enemies have been selected
-        if (rules.MaxTargets > _targetableEnemies.Count && _selectedEnemies.Count == _targetableEnemies.Count)
-            return true;
+        bool noMoreUniqueTargetsAvailable =
+            !rules.AllowDuplicates &&
+            _selectedEnemies.Count == _targetableEnemies.Count;
 
-        return false;
+        return reachedMaxTargets || noMoreUniqueTargetsAvailable;
     }
 
     private void SelectEnemy(Enemy enemy)
@@ -156,22 +169,13 @@ public class TargetingSystem : Singleton<TargetingSystem>
         return targets;
     }
 }
-//TODO: handle deselecting an enemy and removing from list. make rightclick deselect?
-//avoids issues with cards with multiple targets and allows duplicates
-//player can click the same target multiple times with left click, 
-//or click confirm button if mintargets is met
-
 
 //TODO: for clicking multiple targets
 //show targeting arrows from the card to the target
 //show a number above their head to show targeting order
 
-//TODO: for all cards that require multiple targets
-//require confirmation button to be pressed
-//implement and see how it feels
-//if its clunky then can bring back automatic casting on maxTargets reached
-//i want to let the player change their decision so they can be more thoughtful about critical spells
-
 //TODO: create targeting visuals script to handle numbers above targets head
 //targeting visuals handles creating and removing targeting arrows
 //handles targeting count progress "2/4"
+//invoke target selected event and pass through selected targets list + maxTargets (modify for enemies remaining)
+//visuals listens for event, and writes "1/4, 2/4, 3/4, 4/4" in list order
