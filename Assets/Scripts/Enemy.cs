@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour, IPointerClickHandler
     [SerializeField] private SpriteRenderer _highlightedSprite;
     [SerializeField] private SpriteRenderer _selectedSprite;
 
-    public event Action<Enemy> Clicked;
+    public event Action<Enemy, PointerEventData.InputButton> Clicked;
 
     private void Start()
     {
@@ -41,11 +41,12 @@ public class Enemy : MonoBehaviour, IPointerClickHandler
     public void SetSelected(bool selected)
     {
         _selectedSprite.enabled = selected;
+        IsSelected = selected;
     }
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!IsTargetable) return;
 
-        Clicked?.Invoke(this);
-    }  
+        Clicked?.Invoke(this, eventData.button);
+    }
 }
