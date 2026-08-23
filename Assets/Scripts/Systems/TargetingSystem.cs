@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class TargetingSystem : Singleton<TargetingSystem>
 {
@@ -18,7 +17,7 @@ public class TargetingSystem : Singleton<TargetingSystem>
     public void BeginTargeting(CardView card)
     {
         _currentCard = card;
-        _targetableEnemies = _battleManager.Enemies;
+        _targetableEnemies = new List<Enemy>(_battleManager.Enemies);
 
         switch (card.Data.TargetingRules.TargetingType)
         {
@@ -60,41 +59,67 @@ public class TargetingSystem : Singleton<TargetingSystem>
     {
         var targetingRules = _currentCard.Data.TargetingRules;
 
-        if (targetingRules.AllowDuplicates || targetingRules.MaxTargets == 1)
-        {
-            _selectedEnemies.Add(enemy);
-        }
-        else
-        {
-            //check for duplicates then add
-            //or break
-        }
+        if (!CanSelectEnemy(enemy))
+            return;
 
-        if (_selectedEnemies.Count >= targetingRules.MinTargets)
-        {
-            //show a button to confirm the selection
-        }
+        SelectEnemy(enemy);
 
-        if (_selectedEnemies.Count == targetingRules.MaxTargets)
+        if (FinishedTargeting())
         {
-            FinishManualTargeting();
+            CompleteManualTargeting();
         }
-
-        //TODO: handle deselecting an enemy and removing from list. make rightclick deselect?
-                //avoids issues with cards with multiple targets and allows duplicates
-                //player can click the same target multiple times with left click, 
-                //or click confirm button if mintargets is met
     }
 
-    private void FinishManualTargeting()
+    private bool FinishedTargeting()
+    {
+        var rules = _currentCard.Data.TargetingRules;
+
+        //max targets reached
+        if (_selectedEnemies.Count == rules.MaxTargets)
+            return true;
+
+        //cast when less enemies than maximum but all enemies have been selected
+        if (rules.MaxTargets > _targetableEnemies.Count && _selectedEnemies.Count == _targetableEnemies.Count)
+            return true;
+
+        return false;
+    }
+
+    private void SelectEnemy(Enemy enemy)
+    {
+        _selectedEnemies.Add(enemy);
+        enemy.SetSelected(true);
+    }
+
+    private bool CanSelectEnemy(Enemy enemy)
+    {
+        var rules = _currentCard.Data.TargetingRules;
+
+        //Check for duplicate selection
+        if (!rules.AllowDuplicates && _selectedEnemies.Contains(enemy))
+            return false;
+
+        //Check for selections full
+        if (_selectedEnemies.Count >= rules.MaxTargets)
+            return false;
+
+        //Always allow selection if only 1 target required
+        if (rules.MaxTargets == 1)
+            return true;
+
+        return true;
+    }
+
+    private void CompleteManualTargeting()
     {
         if (_selectedEnemies == null || _selectedEnemies.Count == 0) return;
 
-        TargetsSelected?.Invoke(_selectedEnemies);
+        TargetsSelected?.Invoke(new List<Enemy>(_selectedEnemies));
 
         foreach (var enemy in _targetableEnemies)
         {
             enemy.Clicked -= HandleEnemyClicked;
+            enemy.SetSelected(false);
         }
 
         SetEnemiesTargetable(false);
@@ -117,6 +142,11 @@ public class TargetingSystem : Singleton<TargetingSystem>
             enemy.SetHighlight(highlighted);
         }
     }
+    public void CancelTargeting()
+    {
+        _selectedEnemies.Clear();
+        HighlightTargetableEnemies(false);
+    }
 
     private List<Enemy> GetRandomEnemy()
     {
@@ -126,3 +156,22 @@ public class TargetingSystem : Singleton<TargetingSystem>
         return targets;
     }
 }
+//TODO: handle deselecting an enemy and removing from list. make rightclick deselect?
+//avoids issues with cards with multiple targets and allows duplicates
+//player can click the same target multiple times with left click, 
+//or click confirm button if mintargets is met
+
+
+//TODO: for clicking multiple targets
+//show targeting arrows from the card to the target
+//show a number above their head to show targeting order
+
+//TODO: for all cards that require multiple targets
+//require confirmation button to be pressed
+//implement and see how it feels
+//if its clunky then can bring back automatic casting on maxTargets reached
+//i want to let the player change their decision so they can be more thoughtful about critical spells
+
+//TODO: create targeting visuals script to handle numbers above targets head
+//targeting visuals handles creating and removing targeting arrows
+//handles targeting count progress "2/4"
