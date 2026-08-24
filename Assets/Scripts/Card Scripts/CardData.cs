@@ -4,12 +4,18 @@ using UnityEngine;
 [CreateAssetMenu]
 public class CardData : ScriptableObject
 {
-    public string CardName;
-    public string CardDescription;
-    public int ManaCost;
-    public TargetingRules TargetingRules;
+    [SerializeField] private string _cardName;
+    [SerializeField] private string _cardDescription;
+    [SerializeField] private int _manaCost;
+    [SerializeField] private bool _requiresManualTargeting;
+    [SerializeField] private ManualTargetingRules _manualTargetingRules;
+    [SerializeReference] [SubclassSelector] private List<CardEffect> _effects;
 
-    [SerializeReference]
-    [SubclassSelector]
-    public List<CardEffect> effects = new();
+
+    public string CardName => _cardName;
+    public string CardDescription => _cardDescription;
+    public int ManaCost => _manaCost;
+    public bool RequiresManualTargeting => _requiresManualTargeting;
+    public ManualTargetingRules ManualTargetingRules => _manualTargetingRules;
+    public List<CardEffect> effects => _effects;
 }

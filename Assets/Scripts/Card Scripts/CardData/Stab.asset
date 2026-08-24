@@ -12,20 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be246fa458af77f4c9942fe71b3fe5b7, type: 3}
   m_Name: Stab
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  CardName: Stab
-  CardDescription: Deal 2 damage to an enemy
-  ManaCost: 1
-  TargetingRules:
-    TargetingType: 2
+  _cardName: Stab
+  _cardDescription: Deal 2 damage to an enemy
+  _manaCost: 1
+  _requiresManualTargeting: 1
+  _manualTargetingRules:
     MaxTargets: 1
-    AllowDuplicates: 1
-  effects:
-  - rid: 7408834920421785791
+    AllowDuplicates: 0
+  _effects:
+  - rid: 7408835350274506820
   references:
     version: 2
     RefIds:
-    - rid: 7408834920421785791
+    - rid: 7408835350274506820
       type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
       data:
-        damage: 2
-        targetingIndex: 0
+        TargetingConfig:
+          TargetingType: 2
+          SelectionIndex: 0
+        _damage: 2

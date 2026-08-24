@@ -20,30 +20,7 @@ public class TargetingSystem : Singleton<TargetingSystem>
     {
         _currentCard = card;
         _targetableEnemies = new List<Enemy>(_battleManager.Enemies);
-
-        switch (card.Data.TargetingRules.TargetingType)
-        {
-            case TargetingType.None:
-
-                break;
-            case TargetingType.Self:
-
-                break;
-            case TargetingType.Manual:
-                BeginManualTargeting();
-                break;
-            case TargetingType.AllEnemies:
-                TargetsSelected?.Invoke(_targetableEnemies);
-                break;
-            case TargetingType.RandomEnemy:
-                _targetableEnemies = GetRandomEnemy();
-                TargetsSelected?.Invoke(_targetableEnemies);
-                break;
-
-            default:
-                break;
-        }
-
+        BeginManualTargeting();
     }
     private void BeginManualTargeting()
     {
@@ -87,7 +64,7 @@ public class TargetingSystem : Singleton<TargetingSystem>
 
     private bool FinishedTargeting()
     {
-        var rules = _currentCard.Data.TargetingRules;
+        var rules = _currentCard.Data.ManualTargetingRules;
 
         bool reachedMaxTargets = _selectedEnemies.Count >= rules.MaxTargets;
 
@@ -106,7 +83,7 @@ public class TargetingSystem : Singleton<TargetingSystem>
 
     private bool CanSelectEnemy(Enemy enemy)
     {
-        var rules = _currentCard.Data.TargetingRules;
+        var rules = _currentCard.Data.ManualTargetingRules;
 
         //Check for duplicate selection
         if (!rules.AllowDuplicates && _selectedEnemies.Contains(enemy))
@@ -176,6 +153,6 @@ public class TargetingSystem : Singleton<TargetingSystem>
 
 //TODO: create targeting visuals script to handle numbers above targets head
 //targeting visuals handles creating and removing targeting arrows
-//handles targeting count progress "2/4"
+//handles targeting count progress "2/4" shown above the card or on top of the screen
 //invoke target selected event and pass through selected targets list + maxTargets (modify for enemies remaining)
-//visuals listens for event, and writes "1/4, 2/4, 3/4, 4/4" in list order
+//visuals listens for event, and writes "1, 2, 3, 4" in list order. have a sorting box thing so a target can be selected multiple times
