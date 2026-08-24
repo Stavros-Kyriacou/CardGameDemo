@@ -10,22 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be246fa458af77f4c9942fe71b3fe5b7, type: 3}
-  m_Name: Stab
+  m_Name: Multistrike
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  CardName: Stab
-  CardDescription: Deal 2 damage to an enemy
-  ManaCost: 1
+  CardName: Multistrike
+  CardDescription: Deal 3 to a target and 1 damage to a different target
+  ManaCost: 2
   TargetingRules:
     TargetingType: 2
-    MaxTargets: 1
+    MaxTargets: 3
     AllowDuplicates: 1
   effects:
-  - rid: 7408834920421785791
+  - rid: 7408835306477584452
+  - rid: 7408835306477584453
+  - rid: 7408835330606628864
   references:
     version: 2
     RefIds:
-    - rid: 7408834920421785791
+    - rid: 7408835306477584452
       type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
       data:
-        damage: 2
+        damage: 3
         targetingIndex: 0
+    - rid: 7408835306477584453
+      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        damage: 1
+        targetingIndex: 1
+    - rid: 7408835330606628864
+      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        damage: 1
+        targetingIndex: 2

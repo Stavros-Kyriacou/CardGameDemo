@@ -65,6 +65,7 @@ public class CardStagingArea : Singleton<CardStagingArea>
         if (!IsStaging()) return;
 
         ReturnToHand();
+        TargetingSystem.Instance.CancelTargeting();
         _cancelStagingButton.gameObject.SetActive(false);
     }
     private void HandleCardResolved(CardView card)

@@ -47,6 +47,8 @@ public class CardInteraction : MonoBehaviour,
 
         _dragStartPosition = transform.position;
         _dragStartRotation = transform.rotation;
+
+        _cardMovement.RotateTo(Quaternion.identity, 0.1f);
     }
 
     public void OnDrag(PointerEventData eventData)
