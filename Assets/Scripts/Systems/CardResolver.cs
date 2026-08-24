@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class CardResolver : Singleton<CardResolver>
 {
@@ -26,21 +25,32 @@ public class CardResolver : Singleton<CardResolver>
     private void HandleCardStaged(CardView card)
     {
         _currentCard = card;
-        _targetingSystem.BeginTargeting(card);
+
+        if (_currentCard.Data.RequiresManualTargeting)
+        {
+            _targetingSystem.BeginTargeting(_currentCard);
+        }
+        else
+        {
+            var cardContext = CreateCardContext(_currentCard, null, BattleManager.Instance.Enemies);
+            ResolveCard(cardContext);
+        }
     }
+
+    private CardContext CreateCardContext(CardView cardView, List<Enemy> selectedTargets, List<Enemy> availableTargets)
+    {
+        return new CardContext(cardView, selectedTargets, availableTargets);
+    }
+
     private void HandleTargetsSelected(List<Enemy> targets)
     {
-        CardContext context = new CardContext
-        {
-            Card = _currentCard,
-            Targets = targets
-        };
+        CardContext context = new CardContext(_currentCard, targets, null);
 
         ResolveCard(context);
     }
     private void ResolveCard(CardContext context)
     {
-        foreach (CardEffect effect in context.Card.Data.effects)
+        foreach (CardEffect effect in context.CardView.Data.effects)
         {
             effect.Resolve(context);
         }
