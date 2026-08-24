@@ -16,8 +16,7 @@ MonoBehaviour:
   CardDescription: Deal 1 damage to all enemies
   ManaCost: 2
   TargetingRules:
-    TargetingType: 4
-    MinTargets: 0
+    TargetingType: 3
     MaxTargets: 0
     AllowDuplicates: 0
   effects:
@@ -29,3 +28,4 @@ MonoBehaviour:
       type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
       data:
         damage: 1
+        targetingIndex: 0
