@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 public class CardContext
 {
-    private CardView _cardView;
+    private Card _card;
     private List<Enemy> _selectedTargets;
     private List<Enemy> _availableTargets;
 
-    public CardView CardView => _cardView;
+    public Card Card => _card;
     public List<Enemy> SelectedTargets => _selectedTargets;
     public List<Enemy> AvailableTargets => _availableTargets;
     //TODO: Figure out something for entering null lists
     //think about if its ok to pass in all enemies when not using it for targeting
-    public CardContext(CardView cardView, List<Enemy> selectedTargets, List<Enemy> availableTargets)
+    public CardContext(Card card, List<Enemy> selectedTargets, List<Enemy> availableTargets)
     {
-        _cardView = cardView;
+        _card = card;
         
         if (selectedTargets != null)
         {

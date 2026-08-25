@@ -10,7 +10,7 @@ public class CardInteraction : MonoBehaviour,
     IEndDragHandler
 {
     private CardStagingArea _stagingArea;
-    private CardView _cardView;
+    private Card _card;
     private CardVisual _cardVisual;
     private CardMovement _cardMovement;
     private CardPlayController _cardPlayController;
@@ -21,7 +21,7 @@ public class CardInteraction : MonoBehaviour,
 
     private void Awake()
     {
-        _cardView = GetComponent<CardView>();
+        _card = GetComponent<Card>();
         _cardVisual = GetComponent<CardVisual>();
         _cardMovement = GetComponent<CardMovement>();
         _cardPlayController = GetComponent<CardPlayController>();
@@ -43,7 +43,7 @@ public class CardInteraction : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (_cardView.State != CardState.InHand) return;
+        if (_card.State != CardState.InHand) return;
 
         _dragStartPosition = transform.position;
         _dragStartRotation = transform.rotation;
@@ -53,7 +53,7 @@ public class CardInteraction : MonoBehaviour,
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (_cardView.State != CardState.InHand) return;
+        if (_card.State != CardState.InHand) return;
 
         _cardMovement.MoveToMouse(eventData.position);
 
@@ -63,7 +63,7 @@ public class CardInteraction : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (_cardView.State != CardState.InHand) return;
+        if (_card.State != CardState.InHand) return;
 
         if (_cardPlayController.ShouldEnterStaging())
         {

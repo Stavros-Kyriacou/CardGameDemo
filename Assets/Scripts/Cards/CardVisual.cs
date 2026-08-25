@@ -21,20 +21,20 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private SpriteRenderer _cardHighlight;
 
 
-    private CardView _cardView;
+    private Card _card;
 
     private void Awake()
     {
-        _cardView = GetComponent<CardView>();
+        _card = GetComponent<Card>();
         SetHighlight(false);
     }
     private void OnEnable()
     {
-        _cardView.StateChanged += UpdateVisuals;
+        _card.StateChanged += UpdateVisuals;
     }
     private void OnDisable()
     {
-        _cardView.StateChanged -= UpdateVisuals;
+        _card.StateChanged -= UpdateVisuals;
     }
 
     private void UpdateVisuals(CardState newState)
@@ -42,7 +42,7 @@ public class CardVisual : MonoBehaviour
         switch (newState)
         {
             case CardState.InDeck:
-                _cardView.transform.localScale = Vector3.zero;
+                _card.transform.localScale = Vector3.zero;
                 UpdateDataFields();
                 break;
             case CardState.InHand:
@@ -76,8 +76,8 @@ public class CardVisual : MonoBehaviour
     }
     public void UpdateDataFields()
     {
-        _nameText.text = _cardView.Data.CardName;
-        _descriptionText.text = _cardView.Data.CardDescription;
-        _manaCostText.text = _cardView.Data.ManaCost.ToString();
+        _nameText.text = _card.Data.CardName;
+        _descriptionText.text = _card.Data.CardDescription;
+        _manaCostText.text = _card.Data.ManaCost.ToString();
     }
 }

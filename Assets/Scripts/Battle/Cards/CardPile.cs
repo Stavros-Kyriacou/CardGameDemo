@@ -3,20 +3,20 @@ using System.Collections.Generic;
 [System.Serializable]
 public class CardPile
 {
-    public List<CardView> Pile { get; private set; }
+    public List<Card> Pile { get; private set; }
     public CardPile()
     {
-        Pile = new List<CardView>();
+        Pile = new List<Card>();
     }
-    public void AddCard(CardView newCard)
+    public void AddCard(Card newCard)
     {
         Pile.Add(newCard);
     }
-    public void RemoveCard(CardView cardToRemove)
+    public void RemoveCard(Card cardToRemove)
     {
         Pile.Remove(cardToRemove);
     }
-    public CardView GetFirstCard()
+    public Card GetFirstCard()
     {
         return Pile[0];
     }

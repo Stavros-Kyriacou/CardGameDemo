@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 public class CardStagingArea : Singleton<CardStagingArea>
 {
-    public event Action<CardView> CardStaged;
+    public event Action<Card> CardStaged;
     [SerializeField] private HandView _handView;
     [SerializeField] private Button _cancelStagingButton;
     [SerializeField] private float _handPositionThreshold;
     [SerializeField] private Transform _discardPileLocation;
-    private CardView _stagedCard;
+    private Card _stagedCard;
 
     private void Start()
     {
@@ -25,7 +25,7 @@ public class CardStagingArea : Singleton<CardStagingArea>
     {
         return _stagedCard != null;
     }
-    public void RequestStaging(CardView newCard)
+    public void RequestStaging(Card newCard)
     {
         if (_stagedCard == null)
         {
@@ -38,7 +38,7 @@ public class CardStagingArea : Singleton<CardStagingArea>
         }
     }
 
-    private void StageCard(CardView newCard)
+    private void StageCard(Card newCard)
     {
         _stagedCard = newCard;
         _cancelStagingButton.gameObject.SetActive(true);
@@ -68,7 +68,7 @@ public class CardStagingArea : Singleton<CardStagingArea>
         TargetingSystem.Instance.CancelTargeting();
         _cancelStagingButton.gameObject.SetActive(false);
     }
-    private void HandleCardResolved(CardView card)
+    private void HandleCardResolved(Card card)
     {
         _stagedCard = null;
         _cancelStagingButton.gameObject.SetActive(false);
@@ -77,13 +77,13 @@ public class CardStagingArea : Singleton<CardStagingArea>
 
         CardPileSystem.Instance.DiscardPile.AddCard(card);
     }
-    private void MoveCardToStaging(CardView Card)
+    private void MoveCardToStaging(Card Card)
     {
         _stagedCard.SetState(CardState.Staging);
         _stagedCard.CardMovement.MoveTo(transform.position, 0.15f);
         _stagedCard.CardMovement.RotateTo(Quaternion.identity, 0.15f);
     }
-    private void MoveCardToDiscard(CardView card)
+    private void MoveCardToDiscard(Card card)
     {
         card.SetState(CardState.InDiscard);
         card.CardMovement.MoveTo(_discardPileLocation.position, 0.15f);

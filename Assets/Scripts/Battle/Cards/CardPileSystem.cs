@@ -19,8 +19,8 @@ public class CardPileSystem : Singleton<CardPileSystem>
     {
         for (int i = 0; i < _maxDeckSize; i++)
         {
-            CardView cardView = CardViewCreator.Instance.CreateCardView(transform.position, Quaternion.identity);
-            DeckPile.AddCard(cardView);
+            Card card = CardCreator.Instance.CreateCard(transform.position, Quaternion.identity);
+            DeckPile.AddCard(card);
         }
         ShuffleDeck();
     }
@@ -30,7 +30,7 @@ public class CardPileSystem : Singleton<CardPileSystem>
         if (DeckPile.Size() == 0) return;
         if (CardStagingArea.Instance.IsStaging()) return;
 
-        CardView drawnCard = DeckPile.GetFirstCard();
+        Card drawnCard = DeckPile.GetFirstCard();
         DeckPile.RemoveCard(drawnCard);
 
         HandPile.AddCard(drawnCard);
@@ -43,7 +43,7 @@ public class CardPileSystem : Singleton<CardPileSystem>
     {
         DeckPile.ShufflePile();
     }
-    public void RemoveCardFromHand(CardView card)
+    public void RemoveCardFromHand(Card card)
     {
         HandPile.RemoveCard(card);
 
@@ -52,7 +52,7 @@ public class CardPileSystem : Singleton<CardPileSystem>
             StartCoroutine(_handView.UpdateCardPositions());
         }
     }
-    public bool AddToHand(CardView card)
+    public bool AddToHand(Card card)
     {
         if (HandPile.Size() >= _maxHandSize)
             return false;

@@ -7,7 +7,7 @@ public class TargetingSystem : Singleton<TargetingSystem>
 {
     private BattleManager _battleManager;
     public event Action<List<Enemy>> TargetsSelected;
-    private CardView _currentCard;
+    private Card _currentCard;
     private List<Enemy> _targetableEnemies = new List<Enemy>();
     private List<Enemy> _selectedEnemies = new List<Enemy>();
 
@@ -16,7 +16,7 @@ public class TargetingSystem : Singleton<TargetingSystem>
         _battleManager = BattleManager.Instance;
     }
 
-    public void BeginTargeting(CardView card)
+    public void BeginTargeting(Card card)
     {
         _currentCard = card;
         _targetableEnemies = new List<Enemy>(_battleManager.Enemies);

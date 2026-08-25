@@ -5,8 +5,8 @@ public class CardResolver : Singleton<CardResolver>
 {
     private CardStagingArea _cardStagingArea;
     private TargetingSystem _targetingSystem;
-    private CardView _currentCard;
-    public event Action<CardView> CardResolved;
+    private Card _currentCard;
+    public event Action<Card> CardResolved;
 
     private void Start()
     {
@@ -22,7 +22,7 @@ public class CardResolver : Singleton<CardResolver>
         _cardStagingArea.CardStaged -= HandleCardStaged;
         _targetingSystem.TargetsSelected -= HandleTargetsSelected;
     }
-    private void HandleCardStaged(CardView card)
+    private void HandleCardStaged(Card card)
     {
         _currentCard = card;
 
@@ -37,9 +37,9 @@ public class CardResolver : Singleton<CardResolver>
         }
     }
 
-    private CardContext CreateCardContext(CardView cardView, List<Enemy> selectedTargets, List<Enemy> availableTargets)
+    private CardContext CreateCardContext(Card card, List<Enemy> selectedTargets, List<Enemy> availableTargets)
     {
-        return new CardContext(cardView, selectedTargets, availableTargets);
+        return new CardContext(card, selectedTargets, availableTargets);
     }
 
     private void HandleTargetsSelected(List<Enemy> targets)
@@ -50,7 +50,7 @@ public class CardResolver : Singleton<CardResolver>
     }
     private void ResolveCard(CardContext context)
     {
-        foreach (CardEffect effect in context.CardView.Data.effects)
+        foreach (CardEffect effect in context.Card.Data.effects)
         {
             effect.Resolve(context);
         }

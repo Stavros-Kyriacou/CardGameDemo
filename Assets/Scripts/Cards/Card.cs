@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 //Manage the state of the card
-public class CardView : MonoBehaviour
+public class Card : MonoBehaviour
 {
     public CardMovement CardMovement { get; private set; }
     public CardInteraction CardInteraction { get; private set; }
