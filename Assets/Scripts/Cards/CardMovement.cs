@@ -5,13 +5,26 @@ using UnityEngine;
 public class CardMovement : MonoBehaviour
 {
     private Camera _mainCamera;
+    private Vector3 _handPosition;
+    private Quaternion _handRotation;
+    public Vector3 HandPosition => _handPosition;
+    public Quaternion HandRotation => _handRotation;
 
     void Start()
     {
         _mainCamera = Camera.main;
 
     }
-
+    public void SetHandPositionRotation(Vector3 position, Quaternion rotation)
+    {
+        _handPosition = position;
+        _handRotation = rotation;
+    }
+    public void ReturnToHandLocation(float duration)
+    {
+        MoveTo(_handPosition, duration);
+        RotateTo(_handRotation, duration);
+    }
     public void MoveTo(Vector3 position, float duration)
     {
         transform.DOMove(position, duration);
@@ -25,7 +38,7 @@ public class CardMovement : MonoBehaviour
     public void MoveToMouse(Vector2 screenPosition)
     {
         Vector3 position = _mainCamera.ScreenToWorldPoint(screenPosition);
-        position.z = 0;
+        position.z = -0.5f;
 
         transform.position = position;
     }

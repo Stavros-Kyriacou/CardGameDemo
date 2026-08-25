@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-//What is the player doing with the card
+//Detect player input
 public class CardInteraction : MonoBehaviour,
     IPointerEnterHandler,
     IPointerExitHandler,
@@ -18,6 +18,7 @@ public class CardInteraction : MonoBehaviour,
     private Quaternion _dragStartRotation;
     public Vector3 HandPosition => _dragStartPosition;
     public Quaternion HandRotation => _dragStartRotation;
+    private bool _isDragging;
 
     private void Awake()
     {
@@ -33,17 +34,28 @@ public class CardInteraction : MonoBehaviour,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (_card.State != CardState.InHand) return;
+
+        if (_isDragging) return;
+
+        _cardVisual.SetHovered(true);
 
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (_card.State != CardState.InHand) return;
+
+        if (_isDragging) return;
+
+        _cardVisual.SetHovered(false);
 
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (_card.State != CardState.InHand) return;
+        _isDragging = true;
 
         _dragStartPosition = transform.position;
         _dragStartRotation = transform.rotation;
@@ -54,7 +66,8 @@ public class CardInteraction : MonoBehaviour,
     public void OnDrag(PointerEventData eventData)
     {
         if (_card.State != CardState.InHand) return;
-
+        _isDragging = true;
+        // var dragPosition = new Vector3(eventData.position.x, eventData.position.y, -0.5f);
         _cardMovement.MoveToMouse(eventData.position);
 
         bool inPlayableArea = _stagingArea.IsInPlayableArea(transform.position, _dragStartPosition);
@@ -63,7 +76,10 @@ public class CardInteraction : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        _isDragging = false;
+
         if (_card.State != CardState.InHand) return;
+
 
         if (_cardPlayController.ShouldEnterStaging())
         {
@@ -71,7 +87,8 @@ public class CardInteraction : MonoBehaviour,
         }
         else
         {
-            _cardPlayController.ReturnToHand();
+            // _cardPlayController.ReturnToHand();
+            _cardMovement.ReturnToHandLocation(0.12f);
         }
         _cardVisual.SetHighlight(false);
     }

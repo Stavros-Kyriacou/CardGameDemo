@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -8,23 +6,6 @@ public class HandView : MonoBehaviour
 {
     [SerializeField] private SplineContainer _splineContainer;
     [SerializeField] private float _cardMovementDuration = 0.15f;
-
-   
-    private void OnEnable()
-    {
-        // CardStagingArea.Instance.CardStaged += HandleCardStaged;
-    }
-    private void OnDisable()
-    {
-        // if (CardStagingArea.Instance == null) return;
-        // CardStagingArea.Instance.CardStaged -= HandleCardStaged;
-
-    }
-    public void HandleCardStaged()
-    {
-        // StartCoroutine(UpdateCardPositions());
-    }
-
 
     public IEnumerator UpdateCardPositions()
     {
@@ -40,11 +21,14 @@ public class HandView : MonoBehaviour
             Vector3 splinePosition = spline.EvaluatePosition(currentCardPosition); //Spline position in world space
             Vector3 forward = spline.EvaluateTangent(currentCardPosition);
             Vector3 up = spline.EvaluateUpVector(currentCardPosition);
-            Quaternion rotation = Quaternion.LookRotation(-up, Vector3.Cross(-up, forward).normalized);
+            Quaternion handRotation = Quaternion.LookRotation(-up, Vector3.Cross(-up, forward).normalized);
 
             //offset height of each card by small amount in hand so that colliders dont overlap
-            cardsInHand[i].transform.DOMove(splinePosition + transform.position + 0.01f * i * Vector3.back, _cardMovementDuration);
-            cardsInHand[i].transform.DORotate(rotation.eulerAngles, _cardMovementDuration);
+            var handPosition = splinePosition + transform.position + 0.01f * i * Vector3.back;
+
+            cardsInHand[i].CardMovement.SetHandPositionRotation(handPosition, handRotation);
+            cardsInHand[i].CardMovement.MoveTo(handPosition, _cardMovementDuration);
+            cardsInHand[i].CardMovement.RotateTo(handRotation, _cardMovementDuration);
         }
         yield return new WaitForSeconds(_cardMovementDuration);
     }

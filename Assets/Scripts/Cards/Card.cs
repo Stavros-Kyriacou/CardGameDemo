@@ -4,30 +4,37 @@ using UnityEngine;
 //Manage the state of the card
 public class Card : MonoBehaviour
 {
-    public CardMovement CardMovement { get; private set; }
-    public CardInteraction CardInteraction { get; private set; }
-    public CardVisual CardVisual { get; private set; }
-    public CardPlayController CardPlayController { get; private set; }
-    public CardState State { get; private set; }
-    public CardData Data { get; private set; }
+    private CardMovement _cardMovement;
+    private CardInteraction _cardInteration;
+    private CardVisual _cardVisual;
+    private CardPlayController _cardPlayController;
+    private CardState _state;
+    private CardData _data;
+    
+    public CardMovement CardMovement => _cardMovement;
+    public CardInteraction CardInteraction => _cardInteration;
+    public CardVisual CardVisual => _cardVisual;
+    public CardPlayController CardPlayController => _cardPlayController; 
+    public CardState State => _state;
+    public CardData Data => _data;
     public event Action<CardState> StateChanged;
 
     void Awake()
     {
-        CardMovement = GetComponent<CardMovement>();
-        CardInteraction = GetComponent<CardInteraction>();
-        CardVisual = GetComponent<CardVisual>();
-        CardPlayController = GetComponent<CardPlayController>();
+        _cardMovement = GetComponent<CardMovement>();
+        _cardInteration = GetComponent<CardInteraction>();
+        _cardVisual = GetComponent<CardVisual>();
+        _cardPlayController = GetComponent<CardPlayController>();
     }
     public void Initialise(CardData data)
     {
-        Data = data;
+        _data = data;
         SetState(CardState.InDeck);
     }
     public void SetState(CardState newState)
     {
         if (State == newState) return;
-        State = newState;
+        _state = newState;
         StateChanged?.Invoke(State);
     }
 }
