@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43ade763dbd98464a9012f4c69112c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardViewCreator
-  _cardViewPrefab: {fileID: 2681344097577656463, guid: 1057e54a8d8d4f94996a58a8695ace59, type: 3}
+  _cardPrefab: {fileID: 2681344097577656463, guid: 1057e54a8d8d4f94996a58a8695ace59, type: 3}
   _sampleCard: {fileID: 11400000, guid: 8c74957e18e5f91478b8b6a61d8048c9, type: 2}
   _scaleUpDuration: 0.08
 --- !u!4 &235005692 stripped
