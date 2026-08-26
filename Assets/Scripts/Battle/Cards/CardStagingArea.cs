@@ -56,6 +56,7 @@ public class CardStagingArea : Singleton<CardStagingArea>
         if (!CardPileSystem.Instance.AddToHand(_stagedCard))
             return;
 
+        TargetingSystem.Instance.CancelTargeting();
         _stagedCard.SetState(CardState.InHand);
         _stagedCard = null;
         StartCoroutine(_handView.UpdateCardPositions());

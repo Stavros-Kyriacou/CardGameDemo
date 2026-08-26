@@ -134,16 +134,13 @@ public class TargetingSystem : Singleton<TargetingSystem>
     }
     public void CancelTargeting()
     {
+        foreach (var enemy in _targetableEnemies)
+        {
+            enemy.Clicked -= HandleEnemyClicked;
+            enemy.SetSelected(false);
+        }
         _selectedEnemies.Clear();
         HighlightTargetableEnemies(false);
-    }
-
-    private List<Enemy> GetRandomEnemy()
-    {
-        var targets = new List<Enemy>();
-        var randomIndex = UnityEngine.Random.Range(0, _targetableEnemies.Count);
-        targets.Add(_targetableEnemies[randomIndex]);
-        return targets;
     }
 }
 
