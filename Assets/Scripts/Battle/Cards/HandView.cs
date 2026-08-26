@@ -26,7 +26,7 @@ public class HandView : MonoBehaviour
             //offset height of each card by small amount in hand so that colliders dont overlap
             var handPosition = splinePosition + transform.position + 0.01f * i * Vector3.back;
 
-            cardsInHand[i].CardMovement.SetHandPositionRotation(handPosition, handRotation);
+            cardsInHand[i].CardInteraction.SetHandTransform(handPosition, handRotation);
             cardsInHand[i].CardMovement.MoveTo(handPosition, _cardMovementDuration);
             cardsInHand[i].CardMovement.RotateTo(handRotation, _cardMovementDuration);
         }
