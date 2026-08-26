@@ -15,16 +15,6 @@ public class CardMovement : MonoBehaviour
         _mainCamera = Camera.main;
 
     }
-    public void SetHandPositionRotation(Vector3 position, Quaternion rotation)
-    {
-        _handPosition = position;
-        _handRotation = rotation;
-    }
-    public void ReturnToHandLocation(float duration)
-    {
-        MoveTo(_handPosition, duration);
-        RotateTo(_handRotation, duration);
-    }
     public void MoveTo(Vector3 position, float duration)
     {
         transform.DOMove(position, duration);
