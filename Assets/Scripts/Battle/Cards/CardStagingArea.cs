@@ -33,7 +33,7 @@ public class CardStagingArea : Singleton<CardStagingArea>
         }
         else
         {
-            ReturnToHand();
+            ReturnStagedCardToHand();
             StageCard(newCard);
         }
     }
@@ -51,7 +51,7 @@ public class CardStagingArea : Singleton<CardStagingArea>
     /// <summary>
     /// Return the current staged card back to the hand
     /// </summary>
-    public void ReturnToHand()
+    public void ReturnStagedCardToHand()
     {
         if (!CardPileSystem.Instance.AddToHand(_stagedCard))
             return;
@@ -64,7 +64,7 @@ public class CardStagingArea : Singleton<CardStagingArea>
     {
         if (!IsStaging()) return;
 
-        ReturnToHand();
+        ReturnStagedCardToHand();
         TargetingSystem.Instance.CancelTargeting();
         _cancelStagingButton.gameObject.SetActive(false);
     }
