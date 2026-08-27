@@ -9,7 +9,7 @@ public class HandView : MonoBehaviour
 
     public IEnumerator UpdateCardPositions()
     {
-        var cardsInHand = CardPileSystem.Instance.HandPile.Pile;
+        var cardsInHand = CardPileSystem.Instance.HandPile.Cards;
 
         if (cardsInHand.Count == 0) yield break;
         float cardSpacing = 1f / 10;

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
@@ -6,22 +8,22 @@ public class CardPileSystem : Singleton<CardPileSystem>
     public CardPile DeckPile = new CardPile();
     public CardPile HandPile = new CardPile();
     public CardPile DiscardPile = new CardPile();
-
-    [SerializeField] private int _maxDeckSize = 15;
     [SerializeField] private int _maxHandSize = 7;
     [SerializeField] private HandView _handView;
-
-    void Start()
+    [SerializeField] private List<CardData> _startingDeck;
+    [SerializeField] private DeckListUI _deckUI;
+    private void Start()
     {
         GenerateDeck();
     }
     public void GenerateDeck()
     {
-        for (int i = 0; i < _maxDeckSize; i++)
+        foreach (var cardData in _startingDeck)
         {
-            Card card = CardCreator.Instance.CreateCard(transform.position, Quaternion.identity);
+            Card card = CardCreator.Instance.CreateCard(cardData);
             DeckPile.AddCard(card);
         }
+        _deckUI.HandleDeckCreated(DeckPile);
         ShuffleDeck();
     }
     public void DrawCard()
@@ -47,7 +49,7 @@ public class CardPileSystem : Singleton<CardPileSystem>
     {
         HandPile.RemoveCard(card);
 
-        if (HandPile.Pile.Count > 0)
+        if (HandPile.Cards.Count > 0)
         {
             StartCoroutine(_handView.UpdateCardPositions());
         }

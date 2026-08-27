@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be246fa458af77f4c9942fe71b3fe5b7, type: 3}
-  m_Name: Brainstorm
+  m_Name: Fireball
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  _cardName: Brainstorm
-  _cardDescription: Draw 3 cards
-  _manaCost: 1
+  _cardName: Fireball
+  _cardDescription: Deal 8 damage to a random enemy
+  _manaCost: 5
   _requiresManualTargeting: 0
   _manualTargetingRules:
     MaxTargets: 0
     AllowDuplicates: 0
   _effects:
-  - rid: 7408835391211176006
+  - rid: 7408835404081135684
   references:
     version: 2
     RefIds:
-    - rid: 7408835391211176006
-      type: {class: DrawEffect, ns: , asm: Assembly-CSharp}
+    - rid: 7408835404081135684
+      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
       data:
         TargetingConfig:
-          TargetingType: 0
+          TargetingType: 5
           SelectionIndex: 0
-        cardsToDraw: 3
+        _damage: 8
