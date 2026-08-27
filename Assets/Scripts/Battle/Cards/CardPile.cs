@@ -3,26 +3,26 @@ using System.Collections.Generic;
 [System.Serializable]
 public class CardPile
 {
-    public List<Card> Pile { get; private set; }
+    public List<Card> Cards { get; private set; }
     public CardPile()
     {
-        Pile = new List<Card>();
+        Cards = new List<Card>();
     }
     public void AddCard(Card newCard)
     {
-        Pile.Add(newCard);
+        Cards.Add(newCard);
     }
     public void RemoveCard(Card cardToRemove)
     {
-        Pile.Remove(cardToRemove);
+        Cards.Remove(cardToRemove);
     }
     public Card GetFirstCard()
     {
-        return Pile[0];
+        return Cards[0];
     }
     public int Size()
     {
-        return Pile.Count;
+        return Cards.Count;
     }
 
     public void ShufflePile()
@@ -32,7 +32,7 @@ public class CardPile
     public string LogCardsInPile()
     {
         string p = "";
-        foreach (var card in Pile)
+        foreach (var card in Cards)
         {
             p = p + card.name + ", ";
         }

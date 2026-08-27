@@ -44,7 +44,7 @@ public class CardResolver : Singleton<CardResolver>
 
     private void HandleTargetsSelected(List<Enemy> targets)
     {
-        CardContext context = new CardContext(_currentCard, targets, null);
+        CardContext context = new CardContext(_currentCard, targets, BattleManager.Instance.Enemies);
 
         ResolveCard(context);
     }
