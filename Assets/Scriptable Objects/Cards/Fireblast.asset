@@ -12,20 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be246fa458af77f4c9942fe71b3fe5b7, type: 3}
   m_Name: Fireblast
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  CardName: Fireblast
-  CardDescription: Deal 1 damage to all enemies
-  ManaCost: 2
-  TargetingRules:
-    TargetingType: 3
-    MaxTargets: 0
+  _cardName: Fireblast
+  _cardDescription: Deal 2 damage to a target, then 3 damage to everything
+  _manaCost: 3
+  _requiresManualTargeting: 1
+  _manualTargetingRules:
+    MaxTargets: 1
     AllowDuplicates: 0
-  effects:
-  - rid: 7408834920421785790
+  _effects:
+  - rid: 7408835391211176007
+  - rid: 7408835391211176008
   references:
     version: 2
     RefIds:
-    - rid: 7408834920421785790
+    - rid: 7408835391211176007
       type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
       data:
-        damage: 1
-        targetingIndex: 0
+        TargetingConfig:
+          TargetingType: 2
+          SelectionIndex: 0
+        _damage: 2
+    - rid: 7408835391211176008
+      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        TargetingConfig:
+          TargetingType: 4
+          SelectionIndex: 0
+        _damage: 3
