@@ -1,4 +1,6 @@
-using System;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,13 +16,27 @@ public class DeckListUI : MonoBehaviour
     }
     public void HandleDeckCreated(CardPile deckPile)
     {
-        //TODO: dont let it instantiate in the actual order of the deck. group up cards by type
-        //could change CardUI prefab to contain a DuplicatesText tracker instead of 
-        //instantiating all copies of a card in the deck
-        foreach (var card in deckPile.Cards)
+        List<Card> uniqueCards = deckPile.Cards.DistinctBy(x => x.Data.CardName).ToList<Card>();
+        var cardQuantities = new int[uniqueCards.Count()];
+
+        for (int i = 0; i < uniqueCards.Count(); i++)
         {
+            int count = 0;
+
+            for (int j = 0; j < deckPile.Cards.Count(); j++)
+            {
+                if (uniqueCards[i].Data.CardName == deckPile.Cards[j].Data.CardName)
+                {
+                    count++;
+                }
+            }
+            cardQuantities[i] = count;
+        }
+        
+        for (int i = 0; i < uniqueCards.Count(); i++)
+        {   
             CardUI cardUI = Instantiate(_cardUIPrefab, _contentView.transform);
-            cardUI.Initialise(card.Data);
+            cardUI.Initialise(uniqueCards[i].Data, cardQuantities[i]);
         }
     }
     public void ToggleDeckList(bool visible)
