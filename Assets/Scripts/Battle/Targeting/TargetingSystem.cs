@@ -116,22 +116,25 @@ public class TargetingSystem : Singleton<TargetingSystem>
         _selectedEnemies.Clear();
         _currentCard = null;
     }
+
     public void SetEnemiesTargetable(bool targetable)
     {
         foreach (var enemy in _targetableEnemies)
         {
-            enemy.IsTargetable = targetable;
+            enemy.SetTargetable(targetable);
         }
-        HighlightTargetableEnemies(targetable);
 
+        HighlightTargetableEnemies(targetable);
     }
+
     private void HighlightTargetableEnemies(bool highlighted)
     {
         foreach (var enemy in _targetableEnemies)
         {
-            enemy.SetHighlight(highlighted);
+            enemy.EnemyVisuals.SetHighlighted(highlighted);
         }
     }
+    
     public void CancelTargeting()
     {
         foreach (var enemy in _targetableEnemies)
