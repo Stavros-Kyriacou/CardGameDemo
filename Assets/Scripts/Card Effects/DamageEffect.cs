@@ -5,13 +5,16 @@ using UnityEngine;
 public class DamageEffect : CardEffect
 {
     [SerializeField] private int _damage;
-    public int Damage => _damage;
+    [SerializeField] private DamageType _damageType;
+    [SerializeField] private HitType _hitType;
 
     public override void Resolve(CardContext context)
     {
         foreach (var target in context.GetTargets(TargetingConfig))
         {
-            target.TakeDamage(_damage);
+            DamageInstance instance = new DamageInstance(_hitType, _damageType, _damage);
+            int finalDamage = context.DamageCalculator.CalculateDamage(instance, target);
+            target.EnemyStats.TakeDamage(finalDamage);
         }
     }
 }
