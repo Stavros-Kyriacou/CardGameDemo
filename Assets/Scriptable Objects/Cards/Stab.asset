@@ -31,3 +31,5 @@ MonoBehaviour:
           TargetingType: 2
           SelectionIndex: 0
         _damage: 2
+        _damageType: 0
+        _hitType: 0

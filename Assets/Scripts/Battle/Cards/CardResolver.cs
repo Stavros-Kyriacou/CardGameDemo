@@ -6,6 +6,7 @@ public class CardResolver : Singleton<CardResolver>
     private CardStagingArea _cardStagingArea;
     private TargetingSystem _targetingSystem;
     private Card _currentCard;
+    private DamageCalculator _damageCalculator = new DamageCalculator();
     public event Action<Card> CardResolved;
 
     private void Start()
@@ -39,12 +40,12 @@ public class CardResolver : Singleton<CardResolver>
 
     private CardContext CreateCardContext(Card card, List<Enemy> selectedTargets, List<Enemy> availableTargets)
     {
-        return new CardContext(card, selectedTargets, availableTargets);
+        return new CardContext(card, _damageCalculator, selectedTargets, availableTargets);
     }
 
     private void HandleTargetsSelected(List<Enemy> targets)
     {
-        CardContext context = new CardContext(_currentCard, targets, BattleManager.Instance.Enemies);
+        CardContext context = new CardContext(_currentCard, _damageCalculator, targets, BattleManager.Instance.Enemies);
 
         ResolveCard(context);
     }

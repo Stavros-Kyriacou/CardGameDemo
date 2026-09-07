@@ -5,43 +5,34 @@ using UnityEngine.EventSystems;
 
 public class Enemy : MonoBehaviour, IPointerClickHandler
 {
-    public bool IsTargetable;
-    public bool IsSelected { get; private set; }
-    [SerializeField] private int _health = 10;
+    private bool _isTargetable = false;
+    private bool _isSelected = false;
+    public bool IsTargetable => _isTargetable;
+    public bool IsSelected => _isSelected;
     [SerializeField] private TMP_Text _healthText;
     [SerializeField] private SpriteRenderer _highlightedSprite;
-    [SerializeField] private SpriteRenderer _selectedSprite;
+    
+
+    private EnemyStats _enemyStats;
+    private EnemyVisuals _enemyVisuals;
+    public EnemyStats EnemyStats => _enemyStats;
+    public EnemyVisuals EnemyVisuals => _enemyVisuals;
 
     public event Action<Enemy, PointerEventData.InputButton> Clicked;
-
-    private void Start()
+    void Awake()
     {
-        _healthText.text = "HP: " + _health;
-        SetHighlight(false);
-        SetSelected(false);
-        IsSelected = false;
+        _enemyStats = GetComponent<EnemyStats>();
+        _enemyVisuals = GetComponent<EnemyVisuals>();
     }
-    public void TakeDamage(int damage)
-    {
-        if (_health > 0)
-        {
-            _health -= damage;
-            _healthText.text = "HP: " + _health;
-        }
-        else
-        {
-            Debug.Log("I am dead");
-        }
-    }
-
-    public void SetHighlight(bool highlighted)
-    {
-        _highlightedSprite.enabled = highlighted;
+    
+    public void SetTargetable(bool targetable)
+    {   
+        _isTargetable = targetable;
     }
     public void SetSelected(bool selected)
     {
-        _selectedSprite.enabled = selected;
-        IsSelected = selected;
+        _enemyVisuals.SetSelected(selected);
+        _isSelected = selected;
     }
     public void OnPointerClick(PointerEventData eventData)
     {
