@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4921a6482bf25e4f881185ac7338af9, type: 3}
   m_Name: Test Enemy
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  _baseHP: 10
+  _baseHP: 20
   _baseArmour: 0
   _baseMagicResist: 0
