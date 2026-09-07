@@ -31,8 +31,8 @@ Transform:
   m_Children:
   - {fileID: 1850874905881339966}
   - {fileID: 6069941785851929786}
-  - {fileID: 6621927001697933886}
   - {fileID: 7211252715982312815}
+  - {fileID: 6621927001697933886}
   m_Father: {fileID: 3460657456418142298}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4986987694459662018
@@ -174,7 +174,7 @@ MonoBehaviour:
   _healthText: {fileID: 1339808291158906987}
   _primaryFill: {fileID: 7728782075088774135}
   _secondaryFill: {fileID: 8922194621518518771}
-  _primaryFillAnimationDuration: 0.08
+  _primaryFillAnimationDuration: 0.05
   _secondaryFillAnimationDuration: 1.2
 --- !u!1 &6148457886832049295
 GameObject:
@@ -259,7 +259,7 @@ MeshRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1339808291158906987
 MonoBehaviour:
@@ -523,7 +523,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: c5bf96a5ed6efd845bfd1ccbf8aaaa76, type: 3}
   m_Color: {r: 0.5396226, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -613,7 +613,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

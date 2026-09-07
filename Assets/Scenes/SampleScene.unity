@@ -166,18 +166,22 @@ MonoBehaviour:
   _maxHandSize: 7
   _handView: {fileID: 1277169223}
   _startingDeck:
+  - {fileID: 11400000, guid: 8c74957e18e5f91478b8b6a61d8048c9, type: 2}
+  - {fileID: 11400000, guid: ce86b643cd9fb944db2ca1e1a1efbf76, type: 2}
+  - {fileID: 11400000, guid: 2c3261d655d8c14418aa3ca6f92ca8c1, type: 2}
+  - {fileID: 11400000, guid: 8c74957e18e5f91478b8b6a61d8048c9, type: 2}
   - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
+  - {fileID: 11400000, guid: ce86b643cd9fb944db2ca1e1a1efbf76, type: 2}
+  - {fileID: 11400000, guid: 8c74957e18e5f91478b8b6a61d8048c9, type: 2}
+  - {fileID: 11400000, guid: ce86b643cd9fb944db2ca1e1a1efbf76, type: 2}
+  - {fileID: 11400000, guid: 2c3261d655d8c14418aa3ca6f92ca8c1, type: 2}
+  - {fileID: 11400000, guid: 8c74957e18e5f91478b8b6a61d8048c9, type: 2}
+  - {fileID: 11400000, guid: ce86b643cd9fb944db2ca1e1a1efbf76, type: 2}
   - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
-  - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
-  - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
-  - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
-  - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
-  - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
-  - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
-  - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
-  - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
-  - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
-  - {fileID: 11400000, guid: 3b21fb09976556b4396ed9d21c399ad9, type: 2}
+  - {fileID: 11400000, guid: 2c3261d655d8c14418aa3ca6f92ca8c1, type: 2}
+  - {fileID: 11400000, guid: ce86b643cd9fb944db2ca1e1a1efbf76, type: 2}
+  - {fileID: 11400000, guid: 8c74957e18e5f91478b8b6a61d8048c9, type: 2}
+  - {fileID: 11400000, guid: ce86b643cd9fb944db2ca1e1a1efbf76, type: 2}
   _deckUI: {fileID: 1854706678}
 --- !u!1 &32117987
 GameObject:
@@ -1427,7 +1431,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 0000000049045b3cd79ddf76
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -3039,7 +3043,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Veiw Deck
+  m_text: View Deck
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
